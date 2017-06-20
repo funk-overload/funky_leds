@@ -16,7 +16,7 @@ public class Main {
     public Display display = null;
 
     public Main() throws IOException {
-        this.display = new Display(180, 40, 15);
+        this.display = new Display(180, 40, 10);
     }
 
     public static void main(String[] args) throws InterruptedException, IOException {
@@ -35,28 +35,41 @@ public class Main {
 
                 int y = 0;
                 boolean up = true;
+                int r = 100;
+                int b = 0;
                 for (int x = 0; x < display.width; x++) {
                     if (up){
                         y++;
                         if (y >= display.height - 1){
                             up = false;
+                            r = 0;
+                            b = 100;
                         }
                     } else {
                         y--;
                         if (y <= 0){
                             up = true;
+                            r = 100;
+                            b = 0;
                         }
                     }
 
-                    System.out.println(x + " X " + y);
+                    //System.out.println(x + " X " + y);
 
-                    for (int c = 0; c < 255; c++){
-                        display.setPixel(x,y,c,0,0);
-                        display.updateLeds();
-                    }
+                    display.setPixel(x,y,r,0,b);
+                    display.mapPixelsToLeds();
+                    display.renderLeds();
                 }
 
-             }
+//                display.setPixel(10,10,255,0,0);
+//                display.setPixel(20,20,0,255,0);
+//                display.setPixel(30,30,0,0,255);
+
+                //display.mapPixelsToLeds();
+                //display.renderLeds();
+
+
+            }
             catch (IOException e) {
                 e.printStackTrace();
                 System.exit(1);
@@ -74,12 +87,12 @@ public class Main {
             if (r == 0){
                 for (int i = 0; i < 256; i++){
                     display.leds.get(random).r = i;
-                    display.updateLeds();
+                    display.renderLeds();
                 }
             } else {
                 for (int i = 255; i >= 0 ; i--){
                     display.leds.get(random).r = i;
-                    display.updateLeds();
+                    display.renderLeds();
                 }
             }
         }
@@ -88,12 +101,12 @@ public class Main {
             if (r == 0){
                 for (int i = 0; i < 256; i++){
                     display.leds.get(random).g = i;
-                    display.updateLeds();
+                    display.renderLeds();
                 }
             } else {
                 for (int i = 255; i >= 0 ; i--){
                     display.leds.get(random).g = i;
-                    display.updateLeds();
+                    display.renderLeds();
                 }
             }
         }
@@ -102,12 +115,12 @@ public class Main {
             if (r == 0){
                 for (int i = 0; i < 256; i++){
                     display.leds.get(random).b = i;
-                    display.updateLeds();
+                    display.renderLeds();
                 }
             } else {
                 for (int i = 255; i >= 0 ; i--){
                     display.leds.get(random).b = i;
-                    display.updateLeds();
+                    display.renderLeds();
                 }
             }
         }

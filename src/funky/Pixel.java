@@ -7,6 +7,9 @@ import java.util.HashMap;
  */
 public class Pixel {
 
+    public int x = 0;
+    public int y = 0;
+
     public int r = 0;
     public int g = 0;
     public int b = 0;

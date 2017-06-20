@@ -25,6 +25,8 @@ public class Display {
 
     private ArrayList<Pixel> pixels = null;
 
+    private long time = System.currentTimeMillis();
+
     public Display(int width, int height, int gradientDistance) throws IOException {
         this.width = width;
         this.height = height;
@@ -32,13 +34,13 @@ public class Display {
 
         // create SPI object instance for SPI for communication
         // DEFAULT_SPI_SPEED = 1 MHz
-        this.spi = SpiFactory.getInstance(SpiChannel.CS0, 4000000, SpiMode.MODE_0);
+        this.spi = SpiFactory.getInstance(SpiChannel.CS0, 1000000, SpiMode.MODE_0);
 
         initializeLeds();
         initializeCoordinates();
 
+//        for (int y = 0; y < height; y++) {
 //        for (int x = 0; x < width; x++) {
-//            for (int y = 0; y < height; y++) {
 //                Pixel p = pixels.get(x + (y*width));
 //                System.out.println("(" + x + " x " + y + "):" + p.ledMap.size());
 //
@@ -54,9 +56,11 @@ public class Display {
         int nofLeds = leds.size();
         float max = gradientDistance * gradientDistance;
 
-        for (int x = 0; x < width; x++){
-            for (int y = 0; y < height; y++){
+        for (int y = 0; y < height; y++){
+            for (int x = 0; x < width; x++){
                 Pixel p = new Pixel();
+                p.x = x;
+                p.y = y;
 
                 for (int i = 0; i < nofLeds; i++){
                     float d = squaredDistance(x, y, leds.get(i).x, leds.get(i).y);
@@ -79,25 +83,75 @@ public class Display {
     private void initializeLeds(){
         //TODO read from config
         //int nofLeds = 50;
+        int id = 0;
         for (int i = 0; i < 17; i++){
-            leds.add(new Led(31, 0, 0, 0, (10 * i) + 10, 10));
+            leds.add(new Led(id++, 31, 0, 0, 0, (10 * i) + 10, 10));
         }
-        for (int i = 0; i < 16; i++){
-            leds.add(new Led(31, 0, 0, 0, (10 * i) + 15, 20));
+        for (int i = 15; i >= 0; i--){
+            leds.add(new Led(id++, 31, 0, 0, 0, (10 * i) + 10, 20));
         }
         for (int i = 0; i < 17; i++){
-            leds.add(new Led(31, 0, 0, 0, (10 * i) + 10, 30));
+            leds.add(new Led(id++,31, 0, 0, 0, (10 * i) + 10, 30));
         }
     }
 
-    public void updateLeds() throws IOException {
+    public void renderLeds() throws IOException {
         byte[] bytes = frames.ledsToFrameBytes(leds);
         spi.write(bytes);
+
+        long ms = System.currentTimeMillis() - time;
+        System.out.println(ms + "ms");
+        time = System.currentTimeMillis();
+
     }
 
     public void setPixel(int x, int y, int r, int g, int b){
         int i = x + (y*width);
         Pixel p = pixels.get(i);
+
+        p.r = r;
+        p.g = g;
+        p.b = b;
+    }
+
+    public void mapPixelsToLeds(){
+
+        //Reset all led
+        int nofLeds = leds.size();
+        for (int i = 0; i < nofLeds; i++){
+            Led led = leds.get(i);
+            led.r = 0;
+            led.g = 0;
+            led.b = 0;
+        }
+
+        for (int i = 0; i < pixels.size(); i++){
+            Pixel p = pixels.get(i);
+
+            for (HashMap.Entry<Led, Float> entry : p.ledMap.entrySet()) {
+                Led led = entry.getKey();
+                Float f = entry.getValue();
+                led.r += (int) Math.round(f * p.r);
+                led.g += (int) Math.round(f * p.g);
+                led.b += (int) Math.round(f * p.b);
+
+
+            }
+        }
+
+        for (int i = 0; i < nofLeds; i++){
+            Led led = leds.get(i);
+            if (led.r > 255){
+                led.r = 255;
+            }
+            if (led.g > 255){
+                led.g = 255;
+            }
+            if (led.b > 255){
+                led.b = 255;
+            }
+        }
+
 
     }
 
