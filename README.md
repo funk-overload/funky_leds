@@ -6,3 +6,7 @@
 * RGB leds, APA102C led strip
 * Power supply for leds, [LRS-50-5](http://www.meanwell.com/productPdf.aspx?i=399)
 * Wires and cabels.
+  
+  
+#### Eletrical  
+![Eletrical diagram](/wire.png?raw=true)
