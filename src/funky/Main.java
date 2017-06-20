@@ -1,10 +1,8 @@
 package funky;
 
 
-import com.sun.net.httpserver.HttpServer;
-
 import java.io.IOException;
-import java.net.InetSocketAddress;
+
 
 public class Main {
 
@@ -18,7 +16,7 @@ public class Main {
     public Display display = null;
 
     public Main() throws IOException {
-        this.display = new Display(100, 50, 10);
+        this.display = new Display(180, 40, 15);
     }
 
     public static void main(String[] args) throws InterruptedException, IOException {
@@ -29,59 +27,88 @@ public class Main {
     }
 
     private void loop(){
-        while (true){
-            //Do stuff
-
+//        while (true){
+//            //Do stuff
+//
             try {
-                int random = (int)(Math.random() * 50);
-                int color = (int)(Math.random() * 3);
-                if (color == 0){
-                    int r = display.leds.get(random).r;
-                    if (r == 0){
-                        for (int i = 0; i < 256; i++){
-                            display.leds.get(random).r = i;
-                            display.updateLeds();
+                //randomColorFade();
+
+                int y = 0;
+                boolean up = true;
+                for (int x = 0; x < display.width; x++) {
+                    if (up){
+                        y++;
+                        if (y >= display.height - 1){
+                            up = false;
                         }
                     } else {
-                        for (int i = 255; i >= 0 ; i--){
-                            display.leds.get(random).r = i;
-                            display.updateLeds();
+                        y--;
+                        if (y <= 0){
+                            up = true;
                         }
                     }
-                }
-                if (color == 1){
-                    int r = display.leds.get(random).g;
-                    if (r == 0){
-                        for (int i = 0; i < 256; i++){
-                            display.leds.get(random).g = i;
-                            display.updateLeds();
-                        }
-                    } else {
-                        for (int i = 255; i >= 0 ; i--){
-                            display.leds.get(random).g = i;
-                            display.updateLeds();
-                        }
+
+                    System.out.println(x + " X " + y);
+
+                    for (int c = 0; c < 255; c++){
+                        display.setPixel(x,y,c,0,0);
+                        display.updateLeds();
                     }
                 }
-                if (color == 2){
-                    int r = display.leds.get(random).b;
-                    if (r == 0){
-                        for (int i = 0; i < 256; i++){
-                            display.leds.get(random).b = i;
-                            display.updateLeds();
-                        }
-                    } else {
-                        for (int i = 255; i >= 0 ; i--){
-                            display.leds.get(random).b = i;
-                            display.updateLeds();
-                        }
-                    }
-                }
-                //display.updateLeds();
-            }
+
+             }
             catch (IOException e) {
                 e.printStackTrace();
                 System.exit(1);
+            }
+//        }
+
+
+    }
+
+    private void randomColorFade() throws IOException {
+        int random = (int)(Math.random() * 50);
+        int color = (int)(Math.random() * 3);
+        if (color == 0){
+            int r = display.leds.get(random).r;
+            if (r == 0){
+                for (int i = 0; i < 256; i++){
+                    display.leds.get(random).r = i;
+                    display.updateLeds();
+                }
+            } else {
+                for (int i = 255; i >= 0 ; i--){
+                    display.leds.get(random).r = i;
+                    display.updateLeds();
+                }
+            }
+        }
+        if (color == 1){
+            int r = display.leds.get(random).g;
+            if (r == 0){
+                for (int i = 0; i < 256; i++){
+                    display.leds.get(random).g = i;
+                    display.updateLeds();
+                }
+            } else {
+                for (int i = 255; i >= 0 ; i--){
+                    display.leds.get(random).g = i;
+                    display.updateLeds();
+                }
+            }
+        }
+        if (color == 2){
+            int r = display.leds.get(random).b;
+            if (r == 0){
+                for (int i = 0; i < 256; i++){
+                    display.leds.get(random).b = i;
+                    display.updateLeds();
+                }
+            } else {
+                for (int i = 255; i >= 0 ; i--){
+                    display.leds.get(random).b = i;
+                    display.updateLeds();
+                }
             }
         }
     }
