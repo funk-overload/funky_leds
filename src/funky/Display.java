@@ -1,4 +1,4 @@
-package mwit;
+package funky;
 
 import com.pi4j.io.spi.SpiChannel;
 import com.pi4j.io.spi.SpiDevice;

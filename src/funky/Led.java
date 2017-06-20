@@ -1,4 +1,4 @@
-package mwit;
+package funky;
 
 /**
  * Created by Magnus on 2017-06-16.

@@ -1,4 +1,4 @@
-package mwit;
+package funky;
 
 
 import com.sun.net.httpserver.HttpServer;
