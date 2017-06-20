@@ -8,5 +8,5 @@
 * Wires and cabels.
   
   
-#### Eletrical  
-![Eletrical diagram](/wire.png?raw=true)
+#### Electrical  
+![Electrical diagram](/wire.png?raw=true)
