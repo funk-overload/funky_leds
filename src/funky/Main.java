@@ -27,46 +27,65 @@ public class Main {
     }
 
     private void loop(){
-//        while (true){
+        while (true){
 //            //Do stuff
 //
             try {
                 //randomColorFade();
+                megaRandom();
 
-                int y = 0;
-                boolean up = true;
-                int r = 100;
-                int b = 0;
-                for (int x = 0; x < display.width; x++) {
-                    if (up){
-                        y++;
-                        if (y >= display.height - 1){
-                            up = false;
-                            r = 0;
-                            b = 100;
-                        }
-                    } else {
-                        y--;
-                        if (y <= 0){
-                            up = true;
-                            r = 100;
-                            b = 0;
-                        }
-                    }
-
-                    //System.out.println(x + " X " + y);
-
-                    display.setPixel(x,y,r,0,b);
-                    display.mapPixelsToLeds();
-                    display.renderLeds();
-                }
+//                int y = 0;
+//                boolean up = true;
+//                int r = 100;
+//                int b = 0;
+//                for (int x = 0; x < display.width; x++) {
+//                    if (up){
+//                        y++;
+//                        if (y >= display.height - 1){
+//                            up = false;
+//                            r = 0;
+//                            b = 100;
+//                        }
+//                    } else {
+//                        y--;
+//                        if (y <= 0){
+//                            up = true;
+//                            r = 100;
+//                            b = 0;
+//                        }
+//                    }
+//
+//                    //System.out.println(x + " X " + y);
+//
+//                    display.setPixel(x,y,r,0,b);
+//                    display.mapPixelsToLeds();
+//                    display.renderLeds();
+//                }
 
 //                display.setPixel(10,10,255,0,0);
 //                display.setPixel(20,20,0,255,0);
 //                display.setPixel(30,30,0,0,255);
 
                 //display.mapPixelsToLeds();
-                //display.renderLeds();
+
+//               for (int c=0; c < 255; c++) {
+//                    for (int i=0; i < 50; i++){
+//                        display.leds.get(i).r = c;
+//                        display.leds.get(i).g = c;
+//                        display.leds.get(i).b = c;
+//                    }
+//                   display.renderLeds();
+//                }
+//                for (int c=255; c >= 0; c--) {
+//                    for (int i=0; i < 50; i++){
+//                        display.leds.get(i).r = c;
+//                        display.leds.get(i).g = c;
+//                        display.leds.get(i).b = c;
+//                    }
+//                    display.renderLeds();
+//                }
+
+                display.renderLeds();
 
 
             }
@@ -74,8 +93,21 @@ public class Main {
                 e.printStackTrace();
                 System.exit(1);
             }
-//        }
+        }
 
+
+    }
+
+    private void megaRandom(){
+
+        int r = (int)(Math.random() * 255);
+        int g = (int)(Math.random() * 255);
+        int b = (int)(Math.random() * 255);
+        int l = (int)(Math.random() * 50);
+
+        display.leds.get(l).r = r;
+        display.leds.get(l).g = g;
+        display.leds.get(l).b = b;
 
     }
 
