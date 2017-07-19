@@ -2,6 +2,7 @@ package funky;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Main {
@@ -32,7 +33,9 @@ public class Main {
 //
             try {
                 //randomColorFade();
-                megaRandom();
+                //megaRandom();
+                //megaFade();
+                rainbow();
 
 //                int y = 0;
 //                boolean up = true;
@@ -95,6 +98,115 @@ public class Main {
             }
         }
 
+
+    }
+
+    private void rainbow() throws IOException {
+
+        int[] r = {100,   0,   0,   0, 100, 100 };
+        int[] g = {  0,   0, 100, 100, 100,   0 };
+        int[] b = {100, 100, 100,   0,   0,   0 };
+
+
+
+
+
+        for (int c = 0; c < r.length; c++) {;
+            for (int f = 0; f < 100; f++) {
+                for (int row = 0; row < 11; row++) {
+                    int pos = c + row;
+                    if (pos >= r.length) {
+                        pos -= r.length;
+                    }
+                    if (pos >= r.length) {
+                        pos -= r.length;
+                    }
+                    if (pos >= r.length) {
+                        pos -= r.length;
+                    }
+                    for (int col = 0; col < 25; col++) {
+                        int i = (row * 25) + col;
+                        if (r[pos] < display.leds.get(i).r) {
+                            display.leds.get(i).r--;
+                        }
+                        if (r[pos] > display.leds.get(i).r) {
+                            display.leds.get(i).r++;
+                        }
+                        if (g[pos] < display.leds.get(i).g) {
+                            display.leds.get(i).g--;
+                        }
+                        if (g[pos] > display.leds.get(i).g) {
+                            display.leds.get(i).g++;
+                        }
+                        if (b[pos] < display.leds.get(i).b) {
+                            display.leds.get(i).b--;
+                        }
+                        if (b[pos] > display.leds.get(i).b) {
+                            display.leds.get(i).b++;
+                        }
+
+
+                    }
+                }
+                display.renderLeds();
+            }
+        }
+
+
+
+
+    }
+    private void megaFade() throws IOException {
+
+        for (Led l : display.leds) {
+
+            for (int c = 0; c < 100; c += 20) {
+                l.r = c;
+                display.renderLeds();
+            }
+
+        }
+
+        for (Led l : display.leds) {
+
+            for (int c = 0; c < 100; c += 20) {
+                l.g = c;
+                display.renderLeds();
+            }
+
+        }
+
+        for (Led l : display.leds) {
+
+            for (int c = 0; c < 100; c += 20) {
+                l.b = c;
+                display.renderLeds();
+            }
+        }
+
+        for (Led l : display.leds) {
+
+            for (int c = 100; c >= 0; c -= 20) {
+                l.r = c;
+                display.renderLeds();
+            }
+        }
+
+        for (Led l : display.leds) {
+
+            for (int c = 100; c >= 0; c -= 20) {
+                l.g = c;
+                display.renderLeds();
+            }
+        }
+
+        for (Led l : display.leds) {
+
+            for (int c = 100; c >= 0; c -= 20) {
+                l.b = c;
+                display.renderLeds();
+            }
+        }
 
     }
 

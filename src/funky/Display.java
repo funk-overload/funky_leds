@@ -84,14 +84,8 @@ public class Display {
         //TODO read from config
         //int nofLeds = 50;
         int id = 0;
-        for (int i = 0; i < 17; i++){
+        for (int i = 0; i < 275; i++){
             leds.add(new Led(id++, 31, 0, 0, 0, (10 * i) + 10, 10));
-        }
-        for (int i = 15; i >= 0; i--){
-            leds.add(new Led(id++, 31, 0, 0, 0, (10 * i) + 10, 20));
-        }
-        for (int i = 0; i < 17; i++){
-            leds.add(new Led(id++,31, 0, 0, 0, (10 * i) + 10, 30));
         }
     }
 
@@ -100,7 +94,7 @@ public class Display {
         spi.write(bytes);
 
         long ms = System.currentTimeMillis() - time;
-        System.out.println(ms + "ms");
+        //System.out.println(ms + "ms");
         time = System.currentTimeMillis();
 
     }
