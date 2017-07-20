@@ -17,14 +17,98 @@ public class Main {
     public Display display = null;
 
     public Main() throws IOException {
-        this.display = new Display(180, 40, 10);
+        this.display = new Display(true);
     }
 
     public static void main(String[] args) throws InterruptedException, IOException {
 
         Main main = new Main();
         //main.startApi();
-        main.loop();
+        //main.loop();
+        main.displayToString();
+
+        System.out.println();
+        main.colorToString();
+
+        main.megaRandom();
+        System.out.println();
+        main.colorToString();
+
+    }
+
+    private void displayToString(){
+        System.out.println("Size: " + display.width + " x " + display.height);
+
+        System.out.print("     ");
+        for (int x = 0; x<display.width; x++){
+            System.out.print(String.format("%03d", x) + " ");
+        }
+        System.out.println();
+        System.out.print("   +-");
+        for (int x = 0; x<display.width; x++){
+            System.out.print("----");
+        }
+        System.out.println();
+
+        for (int y = display.height-1; y>=0; y--){
+            System.out.print(String.format("%02d", y) + " | ");
+            for (int x = 0; x<display.width; x++){
+                Led led = display.getLed(x, y);
+                System.out.print(String.format("%03d", led.id) + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    private void colorToString(){
+        System.out.println("Size: " + display.width + " x " + display.height);
+
+        System.out.print("     ");
+        for (int x = 0; x<display.width; x++){
+            System.out.print(String.format("%03d", x) + " ");
+        }
+        System.out.println();
+        System.out.print("   +-");
+        for (int x = 0; x<display.width; x++){
+            System.out.print("----");
+        }
+        System.out.println();
+
+        for (int y = display.height-1; y>=0; y--){
+            System.out.print(String.format("%02d", y) + " | ");
+            for (int x = 0; x<display.width; x++){
+                Led led = display.getLed(x, y);
+                String red   = colorToOneHex(led.r);
+                String green = colorToOneHex(led.g);
+                String blue  = colorToOneHex(led.b);
+                System.out.print(red + green + blue + " ");
+                //System.out.print(String.format("%03d", led.id) + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    private String colorToOneHex(int c){
+        String h = String.valueOf((int)Math.floor(c / 16f));
+        if (h.equals("10")){
+            h = "A";
+        }
+        if (h.equals("11")){
+            h = "B";
+        }
+        if (h.equals("12")){
+            h = "C";
+        }
+        if (h.equals("13")){
+            h = "D";
+        }
+        if (h.equals("14")){
+            h = "E";
+        }
+        if (h.equals("15")){
+            h = "F";
+        }
+        return h;
     }
 
     private void loop(){
@@ -212,15 +296,15 @@ public class Main {
 
     private void megaRandom(){
 
-        int r = (int)(Math.random() * 255);
-        int g = (int)(Math.random() * 255);
-        int b = (int)(Math.random() * 255);
-        int l = (int)(Math.random() * 50);
+        for (Led led : display.leds){
+            int r = (int)(Math.random() * 255);
+            int g = (int)(Math.random() * 255);
+            int b = (int)(Math.random() * 255);
 
-        display.leds.get(l).r = r;
-        display.leds.get(l).g = g;
-        display.leds.get(l).b = b;
-
+            led.r = r;
+            led.g = g;
+            led.b = b;
+        }
     }
 
     private void randomColorFade() throws IOException {
